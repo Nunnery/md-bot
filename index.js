@@ -13,7 +13,8 @@ var config = {
     encoding: 'UTF-8'
 };
 var bot = new irc.Client(config.server, config.userName, config);
-bot.addListener('message#', function(from, to, text) {
+bot.addListener('message', function(from, to, text) {
+    if (config.channels.indexOf(to) !== -1 || to === config.userName)
     switch (text.toUpperCase()) {
         case "!BUILDS":
             bot.say(from, 'https://build.tealcubegames.com/job/MythicDrops/');
@@ -23,6 +24,12 @@ bot.addListener('message#', function(from, to, text) {
             break;
         case "!DISCORD":
             bot.say(from, 'https://discord.gg/35BKfCB');
+            break;
+        case "!HELP":
+            bot.say(from, '!help - Request a list of all commands');
+            bot.say(from, '!builds - Request a link to MythicDrops builds');
+            bot.say(from, '!discord - Request a link to the MythicDrops Discord channel');
+            bot.say(from, '!source - Request a link to MythicDrops source code');
             break;
     }
 });
